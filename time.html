@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tell the Time - Mini Trainer</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#eef6f2;
+      --card: rgba(255,255,255,.94);
+      --stroke: rgba(20,60,40,.22);
+      --text:#173328;
+      --muted: rgba(23,51,40,.72);
+      --btn:#1f6b4d;
+      --btn2:#2a8a64;
+      --shadow: 0 10px 22px rgba(0,0,0,.08);
+      --radius: 18px;
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: "Nunito", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color:var(--text);
+    }
+
+    .wrap{
+      max-width: 960px;
+      margin: 18px auto;
+      padding: 0 16px 36px;
+    }
+
+    header{
+      margin-bottom:12px;
+      text-align:center;
+    }
+    h1{
+      margin:0;
+      font-size: clamp(20px, 2.4vw, 28px);
+      letter-spacing:.2px;
+    }
+    .sub{
+      margin:6px 0 0;
+      color:var(--muted);
+      font-size: 14px;
+    }
+
+    .panel{
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px;
+    }
+
+    .topSticky{
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--bg);
+      padding: 10px 0;
+      margin-bottom: 14px;
+    }
+
+    .top{
+      display:grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap:14px;
+      align-items:stretch;
+    }
+    @media (max-width: 860px){
+      .top{ grid-template-columns: 1fr; }
+    }
+
+    .clockCard{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-height: 210px;
+      padding: 14px;
+    }
+
+    .clockLeft{
+      width:100%;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .clockLabel{
+      font-weight:900;
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing:.2px;
+      text-transform: uppercase;
+	      }
+		  .digitalCard .clockLabel{
+  margin-top: -14px;
+}
+
+
+    .digitalCard{
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap:10px;
+      padding: 14px;
+      min-height: 210px;
+
+    }
+
+    .row{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    label{
+      font-weight:900;
+      font-size: 14px;
+    }
+	.timeLabel{
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: .2px;
+}
+    input[type="time"]{
+      font: inherit;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,.95);
+      color: var(--text);
+      outline:none;
+      min-width: 160px;
+    }
+    .hint{
+      color: var(--muted);
+      font-size: 13px;
+      line-height:1.35;
+    }
+
+    .btn{
+      border:0;
+      background: var(--btn);
+      color:white;
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-weight:900;
+      cursor:pointer;
+      box-shadow: 0 10px 18px rgba(31,107,77,.18);
+      transition: transform .08s ease, background .15s ease;
+    }
+    .btn:hover{ background: var(--btn2); }
+    .btn:active{ transform: translateY(1px); }
+    .btn.ghost{
+      background: transparent;
+      color: var(--btn);
+      border: 1px solid rgba(31,107,77,.35);
+      box-shadow:none;
+    }
+
+    /* Practice */
+    .practiceHead{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin: 6px 0 10px;
+      flex-wrap:wrap;
+    }
+    .practiceHead h2{
+      margin:0;
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .list{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .item{
+      background: rgba(255,255,255,.80);
+      border: 1px solid var(--stroke);
+      border-radius: 16px;
+      padding: 12px;
+
+      display:grid;
+      grid-template-columns: 190px 1fr;
+      gap:12px;
+      align-items:center;
+    }
+    @media (max-width: 860px){
+      .item{ grid-template-columns: 1fr; }
+    }
+
+    .leftBox{
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .timeText{
+      font-weight:900;
+      letter-spacing:.4px;
+      font-size: 16px;
+    }
+
+    /* ✅ answer area narrower */
+    .answers{
+  display:grid;
+  grid-template-columns: 280px 280px;  /* ✅ одинаковые аккуратные */
+  gap:10px;
+  justify-content: end;               /* ✅ прижимаем вправо аккуратно */
+  max-width: 620px;                   /* ✅ компактная зона как на скрине */
+  margin-left: auto;                  /* ✅ чтобы справа ровно */
+}
+
+    @media (max-width: 860px){
+      .answers{
+        grid-template-columns: 1fr;
+        max-width: 100%;
+        margin-left:0;
+      }
+    }
+
+    /* ✅ ALWAYS stretched rectangle, even when hidden */
+    .ansCard{
+      border: 1px dashed rgba(31,107,77,.32);
+      border-radius: 16px;
+      background: rgba(255,255,255,.74);
+
+      height: 64px;
+      padding: 8px 10px;
+
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      gap:10px;
+
+      /* key fix: never shrink to content */
+      width: 100%;
+      min-width: 0;
+    }
+
+    /* text area keeps the same space even when hidden */
+    .answerSlot{
+      flex: 1 1 auto;
+      min-width: 0;
+      height: 100%;
+      display:flex;
+      align-items:center;
+    }
+
+    .answerText{
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: .2px;
+      line-height: 1.2;
+      width:100%;
+
+      overflow:hidden;
+      white-space:nowrap;
+      text-overflow:ellipsis;
+    }
+
+    /* ✅ instead of display:none (shrinks), we keep space but hide text */
+    .isHidden{
+      visibility: hidden;
+    }
+
+    .pill{
+      flex: 0 0 auto;
+      font-size: 13px;
+      font-weight:900;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(31,107,77,.30);
+      background: rgba(31,107,77,.08);
+      color: var(--btn);
+      cursor:pointer;
+      user-select:none;
+    }
+    .pill:active{ transform: translateY(1px); }
+
+    /* SVG clocks */
+    .svgClock{
+      width: 170px;
+      height: 170px;
+      flex: 0 0 auto;
+    }
+    .svgClock.mini{
+      width: 78px;
+      height: 78px;
+    }
+
+    /* teaching labels */
+    .mainClockWrap{
+      position: relative;
+      display:inline-block;
+    }
+    .clockWord{
+      position:absolute;
+      font-weight:900;
+      color: rgba(23,51,40,.68);
+      font-size: 14px;
+      letter-spacing:.2px;
+      user-select:none;
+      pointer-events:none;
+      text-transform: lowercase;
+      line-height: 1;
+    }
+    .w-to{ left:-44px; top:10px; }
+    .w-past{ right:-56px; top:10px; }
+    .w-half{ left:50%; bottom:-8px; transform: translateX(-50%); }
+    .w-quarter-left{ left:-70px; top:82px; font-size:13px; }
+    .w-quarter-right{ right:-70px; top:82px; font-size:13px; }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Tell the Time - Mini Trainer</h1>
+      <p class="sub">Pick a time on the digital clock. See the same time on the analogue clock. Practise reading.</p>
+    </header>
+
+    <div class="topSticky">
+      <section class="top">
+        <div class="panel clockCard">
+          <div class="clockLeft">
+            <div class="clockLabel">Analogue clock</div>
+
+            <div class="mainClockWrap" aria-hidden="true">
+              <div id="mainAnalog"></div>
+              <div class="clockWord w-to">to</div>
+              <div class="clockWord w-past">past</div>
+              <div class="clockWord w-quarter-left">quarter</div>
+              <div class="clockWord w-quarter-right">quarter</div>
+              <div class="clockWord w-half">half</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel digitalCard">
+          <div class="clockLabel">Digital clock</div>
+
+          <div class="row">
+            <label for="timePick" class="timeLabel">Choose time:</label>
+            <input id="timePick" type="time" step="60" value="09:10" />
+            <button class="btn ghost" id="randomBtn" type="button">Random</button>
+          </div>
+
+          <div class="hint">
+            Use <b>Random</b> for quick drilling. The analogue clock updates instantly.
+          </div>
+
+          <div class="row">
+            <button class="btn ghost" id="hideAllBtn" type="button">Hide all answers</button>
+            <button class="btn ghost" id="reShuffleBtn" type="button">Shuffle exercise</button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section class="panel">
+      <div class="practiceHead">
+        <h2>Practice</h2>
+        <div class="hint"> Two answer variants </div>
+      </div>
+
+      <div id="practiceList" class="list"></div>
+    </section>
+  </div>
+
+  <script>
+    const DATA = [
+      { time:"09:10", digital:"nine ten", phrase:"ten past nine" },
+      { time:"10:15", digital:"ten fifteen", phrase:"a quarter past ten" },
+      { time:"11:20", digital:"eleven twenty", phrase:"twenty past eleven" },
+      { time:"12:05", digital:"twelve five", phrase:"five past twelve" },
+      { time:"12:35", digital:"twelve thirty-five", phrase:"twenty-five to one" },
+      { time:"01:40", digital:"one forty", phrase:"twenty to two" },
+      { time:"02:25", digital:"two twenty-five", phrase:"twenty-five past two" },
+      { time:"03:30", digital:"three thirty", phrase:"half past three" },
+      { time:"04:45", digital:"four forty-five", phrase:"a quarter to five" },
+      { time:"05:50", digital:"five fifty", phrase:"ten to six" },
+      { time:"06:12", digital:"six twelve", phrase:"twelve past six" },
+      { time:"07:18", digital:"seven eighteen", phrase:"eighteen past seven" },
+      { time:"08:28", digital:"eight twenty-eight", phrase:"twenty-eight past eight" },
+      { time:"09:33", digital:"nine thirty-three", phrase:"twenty-seven to ten" },
+      { time:"10:37", digital:"ten thirty-seven", phrase:"twenty-three to eleven" },
+      { time:"11:47", digital:"eleven forty-seven", phrase:"thirteen to twelve" },
+      { time:"12:55", digital:"twelve fifty-five", phrase:"five to one" },
+      { time:"01:03", digital:"one three", phrase:"three past one" },
+      { time:"02:08", digital:"two eight", phrase:"eight past two" },
+      { time:"03:58", digital:"three fifty-eight", phrase:"two to four" },
+
+      { time:"12:00", digital:"twelve o'clock", phrase:"twelve o'clock" },
+      { time:"08:00", digital:"eight o'clock", phrase:"eight o'clock" },
+      { time:"03:00", digital:"three o'clock", phrase:"three o'clock" },
+
+      { time:"07:12", digital:"seven twelve", phrase:"twelve past seven" },
+      { time:"09:12", digital:"nine twelve", phrase:"twelve past nine" },
+      { time:"11:12", digital:"eleven twelve", phrase:"twelve past eleven" },
+    ];
+
+    function parseTimeHHMM(hhmm){
+      const [hh, mm] = hhmm.split(":").map(x => parseInt(x,10));
+      return { h: hh, m: mm };
+    }
+    function shuffle(arr){
+      const a = arr.slice();
+      for(let i=a.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function buildClockSVG({size=170, hour=9, minute=10, mini=false}){
+      const s = size;
+      const cx = s/2, cy = s/2;
+      const r = s*0.44;
+
+      const hour12 = hour % 12;
+      const hourAngle = (hour12 * 30) + (minute * 0.5);
+      const minAngle  = minute * 6;
+
+      const hourLen = r * 0.55;
+      const minLen  = r * 0.78;
+
+      const stroke = "rgba(20,60,40,.35)";
+      const strokeBold = "rgba(20,60,40,.65)";
+
+      let ticks = "";
+      for(let i=0;i<60;i++){
+        const ang = (i*6 - 90) * Math.PI/180;
+        const inner = r * (i%5===0 ? 0.88 : 0.92);
+        const outer = r * 0.98;
+        const x1 = cx + Math.cos(ang)*inner;
+        const y1 = cy + Math.sin(ang)*inner;
+        const x2 = cx + Math.cos(ang)*outer;
+        const y2 = cy + Math.sin(ang)*outer;
+        const w = (i%5===0 ? (mini?1.2:1.8) : (mini?0.8:1.1));
+        ticks += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${stroke}" stroke-width="${w}" stroke-linecap="round"/>`;
+      }
+
+      const numStyle = `font-family: "Nunito", Arial, sans-serif; fill: rgba(23,51,40,.78); font-weight: 900;`;
+      const fs = mini ? 9 : 13;
+      const nOff = r*0.70;
+
+      let nums = "";
+      for(let n=1;n<=12;n++){
+        const ang = (n*30 - 90) * Math.PI/180;
+        const x = cx + Math.cos(ang)*nOff;
+        const y = cy + Math.sin(ang)*nOff + fs/2.6;
+        nums += `<text x="${x}" y="${y}" text-anchor="middle" style="${numStyle}" font-size="${fs}">${n}</text>`;
+      }
+
+      return `
+        <svg class="svgClock ${mini ? "mini" : ""}" viewBox="0 0 ${s} ${s}" width="${s}" height="${s}" aria-label="Analogue clock">
+          <circle cx="${cx}" cy="${cy}" r="${r}"
+                  fill="rgba(255,255,255,.92)"
+                  stroke="${stroke}"
+                  stroke-width="${mini?2:2.5}"/>
+          ${ticks}
+          ${nums}
+
+          <g transform="rotate(${minAngle} ${cx} ${cy})">
+            <line x1="${cx}" y1="${cy}" x2="${cx}" y2="${cy - minLen}"
+                  stroke="${strokeBold}" stroke-width="${mini?2.2:3}" stroke-linecap="round"/>
+          </g>
+
+          <g transform="rotate(${hourAngle} ${cx} ${cy})">
+            <line x1="${cx}" y1="${cy}" x2="${cx}" y2="${cy - hourLen}"
+                  stroke="${strokeBold}" stroke-width="${mini?3:4.4}" stroke-linecap="round"/>
+          </g>
+
+          <circle cx="${cx}" cy="${cy}" r="${mini?3.5:5}" fill="rgba(31,107,77,.95)"/>
+        </svg>
+      `;
+    }
+
+    function renderMainClock(hhmm){
+      const {h,m} = parseTimeHHMM(hhmm);
+      document.getElementById("mainAnalog").innerHTML =
+        buildClockSVG({ size: 170, hour: h, minute: m, mini:false });
+    }
+
+    function makePracticeRow(item){
+      const {h,m} = parseTimeHHMM(item.time);
+
+      const el = document.createElement("div");
+      el.className = "item";
+
+      // ✅ IMPORTANT: text slot is always there; hidden uses visibility, not display:none
+      el.innerHTML = `
+        <div class="leftBox">
+          <div>${buildClockSVG({ size: 78, hour:h, minute:m, mini:true })}</div>
+          <div class="timeText">${item.time}</div>
+        </div>
+
+        <div class="answers">
+          <div class="ansCard">
+            <div class="answerSlot">
+              <div class="answerText isHidden" data-ans="v1">${item.phrase}</div>
+            </div>
+            <button class="pill" type="button" data-show="v1">Show</button>
+          </div>
+
+          <div class="ansCard">
+            <div class="answerSlot">
+              <div class="answerText isHidden" data-ans="v2">${item.digital}</div>
+            </div>
+            <button class="pill" type="button" data-show="v2">Show</button>
+          </div>
+        </div>
+      `;
+
+      el.querySelectorAll("[data-show]").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          const key = btn.getAttribute("data-show");
+          const ans = el.querySelector(`[data-ans="${key}"]`);
+          const isHidden = ans.classList.toggle("isHidden");
+          btn.textContent = isHidden ? "Show" : "Hide";
+        });
+      });
+
+      return el;
+    }
+
+    function renderPracticeList(items){
+      const list = document.getElementById("practiceList");
+      list.innerHTML = "";
+      items.forEach(it => list.appendChild(makePracticeRow(it)));
+    }
+
+    function hideAllAnswers(){
+      document.querySelectorAll(".answerText").forEach(el=> el.classList.add("isHidden"));
+      document.querySelectorAll(".pill[data-show]").forEach(btn=> btn.textContent = "Show");
+    }
+
+    function pickRandomFromData(){
+      const i = Math.floor(Math.random() * DATA.length);
+      return DATA[i].time;
+    }
+
+    let shuffled = shuffle(DATA);
+
+    const timePick = document.getElementById("timePick");
+    const randomBtn = document.getElementById("randomBtn");
+    const hideAllBtn = document.getElementById("hideAllBtn");
+    const reShuffleBtn = document.getElementById("reShuffleBtn");
+
+    renderMainClock(timePick.value);
+    renderPracticeList(shuffled);
+
+    timePick.addEventListener("input", ()=>{
+      renderMainClock(timePick.value);
+    });
+
+    randomBtn.addEventListener("click", ()=>{
+      const t = pickRandomFromData();
+      timePick.value = t;
+      renderMainClock(t);
+    });
+
+    hideAllBtn.addEventListener("click", hideAllAnswers);
+
+    reShuffleBtn.addEventListener("click", ()=>{
+      shuffled = shuffle(DATA);
+      renderPracticeList(shuffled);
+      hideAllAnswers();
+    });
+  </script>
+</body>
+</html>
