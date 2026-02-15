@@ -383,36 +383,37 @@
   </div>
 
   <script>
-    const DATA = [
-      { time:"09:10", digital:"nine ten", phrase:"ten past nine" },
-      { time:"10:15", digital:"ten fifteen", phrase:"a quarter past ten" },
-      { time:"11:20", digital:"eleven twenty", phrase:"twenty past eleven" },
-      { time:"12:05", digital:"twelve five", phrase:"five past twelve" },
-      { time:"12:35", digital:"twelve thirty-five", phrase:"twenty-five to one" },
-      { time:"01:40", digital:"one forty", phrase:"twenty to two" },
-      { time:"02:25", digital:"two twenty-five", phrase:"twenty-five past two" },
-      { time:"03:30", digital:"three thirty", phrase:"half past three" },
-      { time:"04:45", digital:"four forty-five", phrase:"a quarter to five" },
-      { time:"05:50", digital:"five fifty", phrase:"ten to six" },
-      { time:"06:12", digital:"six twelve", phrase:"twelve past six" },
-      { time:"07:18", digital:"seven eighteen", phrase:"eighteen past seven" },
-      { time:"08:28", digital:"eight twenty-eight", phrase:"twenty-eight past eight" },
-      { time:"09:33", digital:"nine thirty-three", phrase:"twenty-seven to ten" },
-      { time:"10:37", digital:"ten thirty-seven", phrase:"twenty-three to eleven" },
-      { time:"11:47", digital:"eleven forty-seven", phrase:"thirteen to twelve" },
-      { time:"12:55", digital:"twelve fifty-five", phrase:"five to one" },
-      { time:"01:03", digital:"one three", phrase:"three past one" },
-      { time:"02:08", digital:"two eight", phrase:"eight past two" },
-      { time:"03:58", digital:"three fifty-eight", phrase:"two to four" },
+   const DATA = [
+  { time:"09:10", digital:"nine ten", phrase:"ten past nine" },
+  { time:"10:15", digital:"ten fifteen", phrase:"a quarter past ten" },
+  { time:"11:20", digital:"eleven twenty", phrase:"twenty past eleven" },
+  { time:"12:05", digital:"twelve five", phrase:"five past twelve" },
+  { time:"12:35", digital:"twelve thirty-five", phrase:"twenty-five to one" },
+  { time:"01:40", digital:"one forty", phrase:"twenty to two" },
+  { time:"02:25", digital:"two twenty-five", phrase:"twenty-five past two" },
+  { time:"03:30", digital:"three thirty", phrase:"half past three" },
+  { time:"04:45", digital:"four forty-five", phrase:"a quarter to five" },
+  { time:"05:50", digital:"five fifty", phrase:"ten to six" },
 
-      { time:"12:00", digital:"twelve o'clock", phrase:"twelve o'clock" },
-      { time:"08:00", digital:"eight o'clock", phrase:"eight o'clock" },
-      { time:"03:00", digital:"three o'clock", phrase:"three o'clock" },
+  { time:"06:13", digital:"six thirteen", phrase:"thirteen past six" },
+  { time:"07:18", digital:"seven eighteen", phrase:"eighteen past seven" },
+  { time:"08:28", digital:"eight twenty-eight", phrase:"twenty-eight past eight" },
+  { time:"09:33", digital:"nine thirty-three", phrase:"twenty-seven to ten" },
+  { time:"10:37", digital:"ten thirty-seven", phrase:"twenty-three to eleven" },
+  { time:"11:47", digital:"eleven forty-seven", phrase:"thirteen to twelve" },
+  { time:"12:55", digital:"twelve fifty-five", phrase:"five to one" },
+  { time:"01:03", digital:"one three", phrase:"three past one" },
+  { time:"02:08", digital:"two eight", phrase:"eight past two" },
+  { time:"03:58", digital:"three fifty-eight", phrase:"two to four" },
 
-      { time:"07:12", digital:"seven twelve", phrase:"twelve past seven" },
-      { time:"09:12", digital:"nine twelve", phrase:"twelve past nine" },
-      { time:"11:12", digital:"eleven twelve", phrase:"twelve past eleven" },
-    ];
+  { time:"12:00", digital:"twelve o'clock", phrase:"twelve o'clock" },
+  { time:"08:00", digital:"eight o'clock", phrase:"eight o'clock" },
+  { time:"03:00", digital:"three o'clock", phrase:"three o'clock" },
+
+  { time:"07:14", digital:"seven fourteen", phrase:"fourteen past seven" },
+  { time:"09:22", digital:"nine twenty-two", phrase:"twenty-two past nine" },
+  { time:"11:41", digital:"eleven forty-one", phrase:"nineteen to twelve" },
+];
 
     function parseTimeHHMM(hhmm){
       const [hh, mm] = hhmm.split(":").map(x => parseInt(x,10));
@@ -585,3 +586,4 @@
   </script>
 </body>
 </html>
+
